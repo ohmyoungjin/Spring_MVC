@@ -5,12 +5,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "helloServlet", urlPatterns = "/hello")
 public class HelloServlet extends HttpServlet {
     @Override
-    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         System.out.println("HelloServlet.service");
         System.out.println("request = " + request);
@@ -25,7 +27,7 @@ public class HelloServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         //request로 요청 받은 값을 response로 돌려준다.
         response.getWriter().write("hello " + username);
-
-
     }
+
+
 }
