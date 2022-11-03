@@ -36,12 +36,14 @@ public class FrontControllerServletV5 extends HttpServlet {
         initHandlerAdapters();
     }
 
+    //생성자로 mapping 정보 기입
     private void initHandlerMappingMap() {
         handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members", new MemberListControllerV3());
     }
 
+    //V3 adapter에 대한 인스턴스를 저장해둠
     private void initHandlerAdapters() {
         handlerAdapters.add(new ControllerV3HandlerAdapter());
     }
@@ -61,6 +63,7 @@ public class FrontControllerServletV5 extends HttpServlet {
 
         //2.핸들러를 처리할 수 있는 핸들러 어댑터 조회
         //3.핸들러 어댑터 생성
+        //handler => mapping 된 V3 인스턴스
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
         //4.handler 호출해서 로직실행
