@@ -1,12 +1,11 @@
-package hello.servlet.web.frontcontroller.v3;
+package hello.servlet.web.frontcontroller.v4;
 
 
 import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.MyView;
-import hello.servlet.web.frontcontroller.v3.ControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
+import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +16,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "frontControllerServletV3", urlPatterns = "/front-controller/v3/*")
-public class FrontControllerServletV3 extends HttpServlet {
+@WebServlet(name = "frontControllerServletV4", urlPatterns = "/front-controller/v4/*")
+public class FrontControllerServletV4 extends HttpServlet {
 
-    private Map<String, ControllerV3> controllerMap = new HashMap<>();
+    private Map<String, ControllerV4> controllerMap = new HashMap<>();
 
-    public FrontControllerServletV3() {
-        System.out.println("v3 맨 처음 실행");
-        controllerMap.put("/front-controller/v3/members/new-form", new MemberFormControllerV3());
-        controllerMap.put("/front-controller/v3/members/save", new MemberSaveControllerV3());
-        controllerMap.put("/front-controller/v3/members", new MemberListControllerV3());
+    public FrontControllerServletV4() {
+        System.out.println("v4 맨 처음 실행");
+        controllerMap.put("/front-controller/v4/members/new-form", new MemberFormControllerV4());
+        controllerMap.put("/front-controller/v4/members/save", new MemberSaveControllerV4());
+        controllerMap.put("/front-controller/v4/members", new MemberListControllerV4());
     }
 
     @Override
@@ -36,7 +35,7 @@ public class FrontControllerServletV3 extends HttpServlet {
 
         //어떤 controller을 사용할 건지 mapping 하는 부분
         //1.컨트롤러 조회
-        ControllerV3 controller = controllerMap.get(requestURI);
+        ControllerV4 controller = controllerMap.get(requestURI);
         //해당 하는 인스턴스가 없으면 404 page로 보내는 부분
         if (controller == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -45,14 +44,14 @@ public class FrontControllerServletV3 extends HttpServlet {
 
         //paramMap make
         Map<String, String> paramMap = createParamMap(request);
+        Map<String, Object> model = new HashMap<>(); //추가
         //2.컨트롤러 호출
         //3.ModelView 반환
         //mv = view path , view 에서 보여져야 할 정보를 담고 있다
         //ViewName : view path
         //model : view 에서 보여져야 할 정보
-        ModelView mv = controller.process(paramMap);
+        String viewName = controller.process(paramMap, model);
         //논리 이름 ex) new-form 물리 경로를 설정해주는 view resolver가 필요하다.
-        String viewName = mv.getViewName();
         //여기서 물리 경로를 설정해준다.
         //인스턴스를 생성하면서 생성자를 통해 view path를 설정한다.
         //4.viewResolver 호출
@@ -60,10 +59,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         MyView view = viewResolver(viewName);
         //회원 목록
         //6.render 호출
-        System.out.println("임의로 만든 model mv.getModel : " + mv.getModel()); // 회원가입 목록으로 갈 때는 {} 값이 나온다
-        System.out.println(mv.getModel().get("username"));
-        System.out.println(mv.getModel().get("age"));
-        view.render(mv.getModel(),request, response);
+        view.render(model, request, response);
     }
 
     //view 이름을 물리 이름으로 반환해주는 Method MyView를 return 한다.
