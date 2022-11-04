@@ -2,6 +2,7 @@ package hello.servlet.web.frontcontroller.v5.adapter;
 
 import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.v4.ControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
 import hello.servlet.web.frontcontroller.v5.MyHandlerAdapter;
 
 import javax.servlet.ServletException;
@@ -20,8 +21,11 @@ public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
 
     @Override
     public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
+        System.out.println("handle upcasting before : " + handler);
         ControllerV4 controller = (ControllerV4) handler;
-
+        //다형성을 해치는 로직이다 ..
+        //MemberFormControllerV4 controller = (MemberFormControllerV4) handler;
+        System.out.println("handle upcasting after : " + controller);
         Map<String, String> paramMap = createParamMap(request);
         HashMap<String, Object> model = new HashMap<>();
 

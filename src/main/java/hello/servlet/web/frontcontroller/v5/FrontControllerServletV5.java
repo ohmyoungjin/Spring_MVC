@@ -74,6 +74,8 @@ public class FrontControllerServletV5 extends HttpServlet {
         //2.핸들러를 처리할 수 있는 핸들러 어댑터 조회
         //3.핸들러 어댑터 생성
         //handler => mapping 된 V3 인스턴스
+        //이 부분이 이해가 잘 안됐는데 adapter에 있는 handle (controller)을 실행한다
+        //***지금 파라미터로 던지는 handler는 controller 정보를 가지고 있다 !!!!!!
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
         //4.handler 호출해서 로직실행
@@ -102,6 +104,7 @@ public class FrontControllerServletV5 extends HttpServlet {
         //부모 타입과 동일하게 되어 adapter를 반환한다.
         for (MyHandlerAdapter adapter : handlerAdapters) {
             if (adapter.supports(handler)) {
+                System.out.println("Adapter : " + adapter);
                 return adapter;
             }
         }

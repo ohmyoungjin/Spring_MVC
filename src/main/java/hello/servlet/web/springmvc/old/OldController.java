@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+///springmvc/old-controller을 mapping 하는 객체를 반환받는다
 @Component("/springmvc/old-controller")
 public class OldController implements Controller {
 
