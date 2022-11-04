@@ -27,6 +27,10 @@ public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
 
         String viewName = controller.process(paramMap, model);
 
+        //여기서 고민이 많았다 overloading으로 V3 , V4를 나누는 것으로 처음에
+        //설계 후 짰는데
+        //모든 method를 override해야 해서 문제가 생겼따
+        //return 받은 String 으로 Model View 객체를 생성해서 return 해준다다
         ModelView mv = new ModelView(viewName);
         mv.setModel(model);
 
